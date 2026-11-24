@@ -26,15 +26,13 @@ const NavBar = () => {
       <p className="text-[0.8rem] text-text-muted font-medium mb-2">
         WORKSPACE
       </p>
-      <SidebarNavLink>
-        {{ text: "All tasks", number: totalTasks }}
-      </SidebarNavLink>
-      <SidebarNavLink>
-        {{ text: "Pending", number: pendingTasks }}
-      </SidebarNavLink>
-      <SidebarNavLink>
-        {{ text: "Completed", number: completedTasks }}
-      </SidebarNavLink>
+      <SidebarNavLink status="All tasks" count={totalTasks} to="/" />
+      <SidebarNavLink status="Pending" count={pendingTasks} to="/pending" />
+      <SidebarNavLink
+        status="Completed"
+        count={completedTasks}
+        to="/completed"
+      />
     </nav>
   );
 
@@ -48,8 +46,11 @@ const NavBar = () => {
     </footer>
   );
 
-  return (
-    <aside className="flex flex-col justify-between min-h-screen p-4 border-r border-border-default w-fit gap-5">
+  const content = (
+    <aside
+      aria-label="Sidebar Navigation"
+      className="flex flex-col justify-between min-h-screen p-4 border-r border-border-default w-fit gap-5"
+    >
       <div className="flex flex-col gap-10">
         {header}
         {nav}
@@ -57,6 +58,8 @@ const NavBar = () => {
       {footer}
     </aside>
   );
+
+  return content;
 };
 
 export default NavBar;

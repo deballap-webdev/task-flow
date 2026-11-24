@@ -1,20 +1,18 @@
 import type { ReactElement } from "react";
-import type { IconType } from "react-icons";
 import { LuCircleCheck, LuCircleDashed, LuListTodo } from "react-icons/lu";
 import { NavLink } from "react-router";
 
 type Status = "All tasks" | "Pending" | "Completed";
 
 type PropsType = {
-  children: { text: Status; number: number };
+  status: Status;
+  count: number;
+  to: string;
 };
 
-type Icons = Record<Status, ReactElement<IconType>>;
+type Icons = Record<Status, ReactElement>;
 
-const SidebarNavLink = ({ children }: PropsType): ReactElement => {
-  const to: string =
-    children.text === "All tasks" ? "/*" : `/${children.text.toLowerCase()}`;
-
+const SidebarNavLink = ({ status, count, to }: PropsType): ReactElement => {
   const icons: Icons = {
     "All tasks": <LuListTodo />,
     Completed: <LuCircleCheck />,
@@ -29,10 +27,10 @@ const SidebarNavLink = ({ children }: PropsType): ReactElement => {
       }
     >
       <div className="flex items-center gap-2">
-        {icons[children.text]}
-        <p className="text-[0.8rem]">{children.text}</p>
+        {icons[status]}
+        <p className="text-[0.8rem]">{status}</p>
       </div>
-      <div className="number px-3 rounded-[10px] ">{children.number}</div>
+      <div className="number px-3 rounded-[10px] ">{count}</div>
     </NavLink>
   );
 
