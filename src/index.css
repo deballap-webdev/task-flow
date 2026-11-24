@@ -1,1 +1,55 @@
 @import "tailwindcss";
+
+@theme {
+  /* Brand / Primary */
+  --color-primary: #4f39f6;
+  --color-primary-hover: #432dd7;
+  --color-primary-accent: #7969f7;
+  --color-primary-subtle: #edebfe;
+
+  /* Surfaces & Backgrounds */
+  --color-bg-app: #f8fafc;
+  --color-bg-surface: #ffffff;
+  --color-bg-subtle: #f1f5f9;
+  --color-bg-card-inner: #f3f7fa;
+
+  /* Text Colors */
+  --color-text-primary: #1a1d20;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  --color-text-on-primary: #ffffff;
+
+  /* Borders */
+  --color-border-default: #e2e8f0;
+  --color-border-focus: #4f39f6;
+
+  /* Priority & Status Badges */
+  --color-badge-high-bg: #fef2f3;
+  --color-badge-high-border: #ffe2e2;
+  --color-badge-high-text: #c6005a;
+
+  --color-badge-medium-bg: #fefce8;
+  --color-badge-medium-border: #fee685;
+  --color-badge-medium-text: #d26c00;
+
+  --color-badge-low-bg: #f1f5f9;
+  --color-badge-low-text: #475569;
+
+  /* Danger / Destructive */
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+}
+
+.active {
+  @apply text-primary bg-primary-subtle hover:filter hover:brightness-98 font-bold;
+  .number {
+    @apply bg-text-on-primary;
+  }
+}
+
+.inactive {
+  @apply font-medium hover:bg-bg-subtle text-text-secondary;
+  .number {
+    @apply bg-bg-subtle;
+  }
+}

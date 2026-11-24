@@ -1,4 +1,10 @@
-import { createContext, type ReactElement, useMemo, useReducer } from "react";
+import {
+  createContext,
+  type ReactElement,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 
 export type TaskItemType = {
   title: string;
@@ -31,14 +37,18 @@ const REDUCER_ACTION_TYPE = {
   DELETE: "DELETE",
   TGCHECK: "TGCHECK",
   CREATE: "CREATE",
-};
+  CLEAR: "CLEAR",
+} as const;
 
 type ReducerActionType = typeof REDUCER_ACTION_TYPE;
 
-type ReducerAction = {
-  type: keyof ReducerActionType;
-  payload?: TaskItemType;
-};
+type ReducerAction =
+  | {
+      type: "CREATE" | "EDIT";
+      payload: TaskItemType;
+    }
+  | { type: "DELETE" | "TGCHECK"; payload: { id: string } }
+  | { type: "CLEAR" };
 
 const reducer = (
   state: TaskStateType,
@@ -46,33 +56,26 @@ const reducer = (
 ): TaskStateType => {
   switch (action.type) {
     case REDUCER_ACTION_TYPE.DELETE: {
-      if (!action.payload)
-        throw new Error("No action.payload at DELETE action");
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload?.id),
+        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
       };
     }
 
     case REDUCER_ACTION_TYPE.CREATE: {
-      if (!action.payload)
-        throw new Error("No action.payload at CREATE action");
       return { ...state, tasks: [...state.tasks, action.payload] };
     }
 
     case REDUCER_ACTION_TYPE.EDIT: {
-      if (!action.payload) throw new Error("No action.payload at EDIT action");
       return {
         ...state,
         tasks: state.tasks.map((task) =>
-          task.id === action.payload?.id ? action.payload : task,
+          task.id === action.payload.id ? action.payload : task,
         ),
       };
     }
 
     case REDUCER_ACTION_TYPE.TGCHECK: {
-      if (!action.payload)
-        throw new Error("No action.payload at TGCHECK action");
       return {
         ...state,
         tasks: state.tasks.map((task) => {
@@ -86,13 +89,33 @@ const reducer = (
       };
     }
 
+    case REDUCER_ACTION_TYPE.CLEAR:
+      return { ...state, tasks: [] };
+
     default:
       throw new Error("action does not exist in ReducerActionType");
   }
 };
 
 const useTaskContext = (initTaskState: TaskStateType) => {
-  const [state, dispatch] = useReducer(reducer, initTaskState);
+  const initTasks = (): TaskStateType => {
+    try {
+      const jsonTasks = localStorage.getItem("taskState");
+      if (typeof jsonTasks !== "string") return initTaskState;
+      const taskState: TaskStateType = { tasks: JSON.parse(jsonTasks) };
+      return taskState;
+    } catch (err) {
+      console.error(err);
+      return initTaskState;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, initTaskState, initTasks);
+
+  useEffect(() => {
+    localStorage.setItem("taskState", JSON.stringify(state.tasks));
+  }, [state.tasks]);
+
   const pendingTasks: number = state.tasks.reduce(
     (accum, task) => (task.status === "pending" ? accum + 1 : accum),
     0,

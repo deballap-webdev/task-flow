@@ -1,5 +1,11 @@
+import Sidebar from "./components/Sidebar";
+
 function App() {
-  return <p className="text-green-700">This should be green</p>;
+  return (
+    <>
+      <Sidebar />
+    </>
+  );
 }
 
 export default App;
