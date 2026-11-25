@@ -23,7 +23,7 @@ const SidebarNavLink = ({ status, count, to }: PropsType): ReactElement => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center w-45 gap-2 justify-between ${isActive ? "active" : "inactive"} px-2 py-3 rounded-xl `
+        `flex items-center w-45 gap-2 justify-between ${isActive ? "active" : "inactive"} px-3 py-2 rounded-xl focus:outline-1 focus:outline-primary  `
       }
     >
       <div className="flex items-center gap-2">

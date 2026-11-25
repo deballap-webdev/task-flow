@@ -35,19 +35,17 @@ const initTaskState: TaskStateType = {
 const REDUCER_ACTION_TYPE = {
   EDIT: "EDIT",
   DELETE: "DELETE",
-  TGCHECK: "TGCHECK",
+  TGSTATUS: "TGSTATUS",
   CREATE: "CREATE",
   CLEAR: "CLEAR",
 } as const;
-
-type ReducerActionType = typeof REDUCER_ACTION_TYPE;
 
 type ReducerAction =
   | {
       type: "CREATE" | "EDIT";
       payload: TaskItemType;
     }
-  | { type: "DELETE" | "TGCHECK"; payload: { id: string } }
+  | { type: "DELETE" | "TGSTATUS"; payload: { id: string } }
   | { type: "CLEAR" };
 
 const reducer = (
@@ -75,7 +73,7 @@ const reducer = (
       };
     }
 
-    case REDUCER_ACTION_TYPE.TGCHECK: {
+    case REDUCER_ACTION_TYPE.TGSTATUS: {
       return {
         ...state,
         tasks: state.tasks.map((task) => {
