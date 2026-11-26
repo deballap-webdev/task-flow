@@ -54,10 +54,10 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
   );
 
   const listHeader = (
-    <header className="flex justify-between items-end">
+    <header className="flex justify-between items-end mb-4">
       <div>
         <h2 className="text-text-primary font-medium">Your List</h2>
-        <p className="text-[0.8rem] text-text-secondary">6 tasks</p>
+        <p className="text-[0.8rem] text-text-secondary">{totalTasks} tasks</p>
       </div>
       <nav
         className="border border-border-default bg-bg-card-inner rounded-xl p-1 flex gap-3  "
@@ -100,11 +100,13 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
 
   const content = (
     <div className="bg-bg-app min-h-[calc(100%-54px)]">
-      <main className="  flex  mx-auto max-w-250 p-6 flex-col gap-6">
+      <main className="  flex  mx-auto max-w-250 p-6 flex-col gap-8">
         {header}
         {taskSatistics}
-        {listHeader}
-        {totalTasks > 0 ? mainList : emptyPlaceholder}
+        <section>
+          {listHeader}
+          {totalTasks > 0 ? mainList : emptyPlaceholder}
+        </section>
       </main>
       {isCreateTaskOpen && (
         <CreateTask setIsCreateTaskOpen={setIsCreateTaskOpen} />

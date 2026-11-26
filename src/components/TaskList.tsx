@@ -6,7 +6,7 @@ const TaskList = () => {
   } = useTask();
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-4">
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}
