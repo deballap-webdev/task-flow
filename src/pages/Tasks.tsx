@@ -1,7 +1,9 @@
+import { LuNotepadText } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
 import TaskItem from "../components/TaskItem";
 import TaskStat from "../components/TaskStat";
 import useTask from "../Hooks/useTask";
+import CreateTask from "../modals/CreateTask";
 
 const Tasks = ({ tasks }) => {
   const { pendingTasks, completedTasks, totalTasks } = useTask();
@@ -10,7 +12,7 @@ const Tasks = ({ tasks }) => {
     <div className="flex justify-between items-end">
       <div>
         <p className="text-primary text-[0.8rem] font-bold">Workspace</p>
-        <h2 className="text-text-primary font-medium text-[1.2rem]">
+        <h2 className="text-text-primary font-medium text-[1.5rem]">
           My tasks
         </h2>
         <p className="text-text-muted text-[0.8rem]">
@@ -84,16 +86,33 @@ const Tasks = ({ tasks }) => {
     </ul>
   );
 
+  const emptyPlaceholder = (
+    <div className="bg-bg-surface flex flex-col items-center py-8 gap-4 rounded-xl border border-border-default border-dashed">
+      <LuNotepadText className="bg-badge-low-bg text-badge-low-text h-10 w-10 p-2 rounded-xl" />
+      <div className="flex flex-col items-center">
+        <p className="font-bold">Nothing here yet</p>
+        <p className="text-text-muted text-[0.9rem]">
+          A fresh start. Add a task whenever your'e ready
+        </p>
+      </div>
+      <button className="bg-primary text-text-on-primary hover:bg-primary-hover cursor-pointer px-3 py-1.5 rounded-[10px]">
+        + Create Task
+      </button>
+    </div>
+  );
+
   const content = (
-    <div className="bg-bg-app min-h-[calc(100%-38px)]">
+    <div className="bg-bg-app min-h-[calc(100%-54px)]">
       <main className="  flex  mx-auto max-w-250 p-6 flex-col gap-6">
         {header}
         {taskSatistics}
         {listHeader}
-        {mainList}
+        {emptyPlaceholder}
       </main>
+      {/* <CreateTask /> */}
     </div>
   );
+
   return content;
 };
 

@@ -21,7 +21,7 @@ const TaskStat = ({ status, count, styles }: PropsType) => {
   };
 
   return (
-    <div className="bg-bg-surface border border-border-default rounded-xl px-6 py-4 shadow-md  flex justify-between items-center min-w-50 grow">
+    <div className="bg-bg-surface border border-border-default rounded-xl px-6 py-4 shadow-sm  flex justify-between items-center min-w-50 grow">
       <div className="flex flex-col gap-3">
         <p className="text-text-secondary">{`${status} tasks`}</p>
         <p className="text-text-primary font-bold text-3xl">{count}</p>

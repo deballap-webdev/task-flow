@@ -7,7 +7,7 @@ type PropsType = {
 const EditButton = ({ onClick }: PropsType) => {
   return (
     <button
-      className="text-text-secondary   hover:text-badge-low-text p-2 rounded-md cursor-pointer hover:bg-badge-low-bg h-fit"
+      className="text-text-secondary focus:outline-1 focus:outline-primary  hover:text-badge-low-text p-2 rounded-md cursor-pointer hover:bg-badge-low-bg h-fit"
       title="Edit task"
       onClick={onClick}
     >

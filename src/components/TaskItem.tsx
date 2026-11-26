@@ -52,7 +52,7 @@ const TaskItem = ({ task }: PropsType) => {
 
   return (
     <li
-      className="flex gap-3 bg-bg-surface shadow-md border border-border-default rounded-xl hover:shadow-xl hover:cursor-pointer hover:brightness-[97.5%] index p-6 focus:outline-1 focus:outline-primary"
+      className="flex gap-3 bg-bg-surface shadow-sm border border-border-default rounded-xl hover:shadow-md hover:cursor-pointer hover:brightness-[97.5%] index p-6 focus:outline-1 focus:outline-primary"
       tabIndex={0}
     >
       <input
