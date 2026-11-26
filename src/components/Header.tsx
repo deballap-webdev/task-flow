@@ -1,6 +1,10 @@
 import { LuSearch, LuPlus } from "react-icons/lu";
 
-const Header = () => {
+type PropsType = {
+  setIsCreateTaskOpen: (b: boolean) => void;
+};
+
+const Header = ({ setIsCreateTaskOpen }: PropsType) => {
   const searchBar = (
     <div className=" bg-bg-card-inner w-2/5 min-w-60 flex items-center rounded-md border-border-default px-3 py-2 border gap-2 focus-within:outline-1 focus-within:outline-border-focus">
       <LuSearch />
@@ -15,7 +19,10 @@ const Header = () => {
   );
 
   const creatTaskBtn = (
-    <button className="flex items-center gap-1 bg-primary text-text-on-primary px-2 py-1 rounded-md text-[0.8rem] hover:bg-primary-hover hover:cursor-pointer text-nowrap">
+    <button
+      className="flex items-center gap-1 bg-primary text-text-on-primary px-3 py-1 rounded-[10px] text-[0.8rem] hover:bg-primary-hover hover:cursor-pointer text-nowrap"
+      onClick={() => setIsCreateTaskOpen(true)}
+    >
       <LuPlus /> Create task
     </button>
   );

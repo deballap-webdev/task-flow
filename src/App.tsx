@@ -1,17 +1,31 @@
+import { useState } from "react";
 import Layout from "./components/Layout";
 import { Route, Routes } from "react-router";
 import Tasks from "./pages/Tasks";
-
+import { TaskProvider } from "./context/TaskProvider";
 function App() {
+  const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
+
+  const tasks = (
+    <Tasks
+      setIsCreateTaskOpen={setIsCreateTaskOpen}
+      isCreateTaskOpen={isCreateTaskOpen}
+    />
+  );
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Tasks tasks={""} />} />
-          <Route path="pending" element={<Tasks tasks={""} />} />
-          <Route path="completed" element={<Tasks tasks={""} />} />
-        </Route>
-      </Routes>
+      <TaskProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={<Layout setIsCreateTaskOpen={setIsCreateTaskOpen} />}
+          >
+            <Route index element={tasks} />
+            <Route path="pending" element={tasks} />
+            <Route path="completed" element={tasks} />
+          </Route>
+        </Routes>
+      </TaskProvider>
     </>
   );
 }

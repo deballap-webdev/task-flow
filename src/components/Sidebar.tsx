@@ -2,7 +2,7 @@ import { LuCheck, LuNotepadText } from "react-icons/lu";
 import useTask from "../Hooks/useTask";
 import SidebarNavLink from "./SidebarNavLink";
 
-const NavBar = () => {
+const Sidebar = () => {
   const { pendingTasks, completedTasks, totalTasks } = useTask();
 
   const header = (
@@ -62,4 +62,4 @@ const NavBar = () => {
   return content;
 };
 
-export default NavBar;
+export default Sidebar;

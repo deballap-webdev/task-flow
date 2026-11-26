@@ -1,11 +1,16 @@
 import { LuNotepadText } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
-import TaskItem from "../components/TaskItem";
 import TaskStat from "../components/TaskStat";
 import useTask from "../Hooks/useTask";
 import CreateTask from "../modals/CreateTask";
+import TaskList from "../components/TaskList";
 
-const Tasks = ({ tasks }) => {
+type PropsType = {
+  isCreateTaskOpen: boolean;
+  setIsCreateTaskOpen: (b: boolean) => void;
+};
+
+const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
   const { pendingTasks, completedTasks, totalTasks } = useTask();
 
   const header = (
@@ -62,29 +67,18 @@ const Tasks = ({ tasks }) => {
         <SecondaryNavLink to="/pending" status="Pending" count={pendingTasks} />
         <SecondaryNavLink
           to="/completed"
-          status="All tasks"
+          status="Completed"
           count={completedTasks}
         />
       </nav>
+      <select name="" id="">
+        <option value="all priorities">All priorities</option>
+        {}
+      </select>
     </header>
   );
 
-  const mainList = (
-    <ul>
-      <TaskItem
-        key={21}
-        task={{
-          title: "Giraffes",
-          description:
-            "This is a very long title or description that will automatically wrap to a second line and then gracefully cut off with an ellipsis if it exceeds that limit",
-          id: "21",
-          timeStamp: 390304040,
-          status: "pending",
-          priority: "medium",
-        }}
-      />
-    </ul>
-  );
+  const mainList = <TaskList />;
 
   const emptyPlaceholder = (
     <div className="bg-bg-surface flex flex-col items-center py-8 gap-4 rounded-xl border border-border-default border-dashed">
@@ -95,7 +89,10 @@ const Tasks = ({ tasks }) => {
           A fresh start. Add a task whenever your'e ready
         </p>
       </div>
-      <button className="bg-primary text-text-on-primary hover:bg-primary-hover cursor-pointer px-3 py-1.5 rounded-[10px]">
+      <button
+        className="bg-primary text-text-on-primary hover:bg-primary-hover cursor-pointer px-3 py-1.5 rounded-[10px]"
+        onClick={() => setIsCreateTaskOpen(true)}
+      >
         + Create Task
       </button>
     </div>
@@ -107,9 +104,11 @@ const Tasks = ({ tasks }) => {
         {header}
         {taskSatistics}
         {listHeader}
-        {emptyPlaceholder}
+        {totalTasks > 0 ? mainList : emptyPlaceholder}
       </main>
-      {/* <CreateTask /> */}
+      {isCreateTaskOpen && (
+        <CreateTask setIsCreateTaskOpen={setIsCreateTaskOpen} />
+      )}
     </div>
   );
 

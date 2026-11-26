@@ -1,14 +1,38 @@
 import { useState } from "react";
 import { LuX } from "react-icons/lu";
+import { type TaskItemType } from "../context/TaskProvider";
+import useTask from "../Hooks/useTask";
 
 type Priority = "low" | "medium" | "high";
 
 const priorityArray: Priority[] = ["low", "medium", "high"];
 
-const CreateTask = () => {
+type PropsType = {
+  setIsCreateTaskOpen: (b: boolean) => void;
+};
+
+const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [priority, setPriority] = useState<Priority>("low");
+  const { dispatch, REDUCER_ACTION } = useTask();
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (title.length > 80) return;
+    const taskItem: TaskItemType = {
+      description: desc,
+      title,
+      priority,
+      id: Date.now().toString(),
+      timeStamp: Date.now(),
+      status: "pending",
+    };
+    dispatch({ type: REDUCER_ACTION.CREATE, payload: taskItem });
+    setTitle("");
+    setDesc("");
+    setIsCreateTaskOpen(false);
+  };
 
   const header = (
     <header className="flex justify-between">
@@ -20,7 +44,12 @@ const CreateTask = () => {
           Add a new task to your list.
         </p>
       </div>
-      <LuX className=" hover:text-danger hover:bg-badge-low-bg focus:outline-1 focus:outline-danger " />
+      <button
+        className=" hover:text-danger hover:bg-badge-low-bg focus:outline-1 focus:outline-danger p-2 rounded-md h-8 w-8"
+        onClick={() => setIsCreateTaskOpen(false)}
+      >
+        <LuX />
+      </button>
     </header>
   );
 
@@ -37,6 +66,7 @@ const CreateTask = () => {
           className={`${title.length > 80 ? "text-danger" : "text-text-secondary"} input`}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         <p
           className={` text-[0.8rem] font-medium ${title.length > 80 ? "text-danger" : "text-text-secondary"}`}
@@ -50,7 +80,7 @@ const CreateTask = () => {
   const descField = (
     <div>
       <label htmlFor="taskDesc" className="font-bold text-[0.9rem]">
-        Description{" "}
+        Description
         <span className="font-normal text-text-muted">{"(optional)"}</span>
       </label>
       <textarea
@@ -78,7 +108,7 @@ const CreateTask = () => {
           <option
             key={prty}
 
-            value={prty.toUpperCase()}
+            value={prty}
           >
             {prty[0].toUpperCase() + prty.slice(1)}
           </option>
@@ -91,12 +121,13 @@ const CreateTask = () => {
     <div className="flex justify-end gap-2">
       <button
         type="button"
-        className="shadow-sm border-border-default border rounded-[10px] px-3 py-1.5 font-medium text-text-primary cursor-pointer focus:outline-1 focus:outline-primary "
+        className="shadow-sm border-border-default border rounded-[10px] px-3 py-1.5 font-medium text-text-primary cursor-pointer focus:outline-1 focus:outline-primary bg-bg-surface hover:filter hover:brightness-[97.5%]"
+        onClick={() => setIsCreateTaskOpen(false)}
       >
         Cancel
       </button>
       <button
-        type="button"
+        type="submit"
         className="bg-primary text-text-on-primary px-3 py-1.5 rounded-[10px] hover:bg-primary-hover cursor-pointer"
       >
         Create task
@@ -106,7 +137,10 @@ const CreateTask = () => {
 
   return (
     <div className=" fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-[rgba(15,30,42,0.45)]">
-      <form className="bg-bg-surface flex flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]">
+      <form
+        className="bg-bg-surface flex flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
+        onSubmit={handleSubmit}
+      >
         {header}
         {titleField}
         {descField}
