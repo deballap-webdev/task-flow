@@ -1,4 +1,4 @@
-import { LuNotepadText, LuTrash2 } from "react-icons/lu";
+import { LuTrash2 } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
 import TaskStat from "../components/TaskStat";
 import useTask from "../Hooks/useTask";
@@ -6,20 +6,36 @@ import CreateTask from "../components/modals/CreateTask";
 import TaskList from "../components/TaskList";
 import ClearAll from "../components/modals/ClearAll";
 import { useState } from "react";
+import useFilteredTasks from "../Hooks/useFilteredTasks";
 
 type PropsType = {
   isCreateTaskOpen: boolean;
   setIsCreateTaskOpen: (b: boolean) => void;
+  searchText: string;
 };
 
 type Status = "high" | "medium" | "low";
 
-const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
-  const { pendingTasks, completedTasks, totalTasks } = useTask();
+const Tasks = ({
+  isCreateTaskOpen,
+  setIsCreateTaskOpen,
+  searchText,
+}: PropsType) => {
+  const {
+    pendingTasks,
+    completedTasks,
+    totalTasks,
+    state: { tasks },
+  } = useTask();
 
   const [isClearAllOpen, setIsClearAllOpen] = useState(false);
 
   const statusArray: Status[] = ["high", "low", "medium"];
+
+  const { handlePriorityChange, filteredTasks } = useFilteredTasks(
+    tasks,
+    searchText,
+  );
 
   const header = (
     <div className="flex justify-between items-end">
@@ -91,15 +107,16 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
           name="filterPriority"
           id="filterPriority"
           className="text-[0.8rem] border border-border-default px-3 py-2 shadow-sm rounded-[10px]"
+          onChange={handlePriorityChange}
         >
-          <option value="all priorities">All priorities</option>
+          <option value="all">All priorities</option>
           {statusArray.map((stat) => (
             <option value={stat} key={`stautu${stat}`}>
               {stat[0].toUpperCase() + stat.slice(1)}
             </option>
           ))}
         </select>
-        {totalTasks > 0 && (
+        {filteredTasks.length > 0 && (
           <button
             className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
             onClick={() => setIsClearAllOpen(true)}
@@ -111,24 +128,8 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
     </header>
   );
 
-  const mainList = <TaskList />;
-
-  const emptyPlaceholder = (
-    <div className="bg-bg-surface flex flex-col items-center py-8 gap-4 rounded-xl border border-border-default border-dashed">
-      <LuNotepadText className="bg-badge-low-bg text-badge-low-text h-10 w-10 p-2 rounded-xl" />
-      <div className="flex flex-col items-center">
-        <p className="font-bold">Nothing here yet</p>
-        <p className="text-text-muted text-[0.9rem]">
-          A fresh start. Add a task whenever your'e ready
-        </p>
-      </div>
-      <button
-        className="bg-primary text-text-on-primary hover:bg-primary-hover cursor-pointer px-3 py-1.5 rounded-[10px]"
-        onClick={() => setIsCreateTaskOpen(true)}
-      >
-        + Create Task
-      </button>
-    </div>
+  const mainList = (
+    <TaskList tasks={filteredTasks} setIsCreateTaskOpen={setIsCreateTaskOpen} />
   );
 
   const content = (
@@ -138,13 +139,18 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
         {taskSatistics}
         <section>
           {listHeader}
-          {totalTasks > 0 ? mainList : emptyPlaceholder}
+          {mainList}
         </section>
       </main>
       {isCreateTaskOpen && (
         <CreateTask setIsCreateTaskOpen={setIsCreateTaskOpen} />
       )}
-      {isClearAllOpen && <ClearAll setIsClearAllOpen={setIsClearAllOpen} />}
+      {isClearAllOpen && (
+        <ClearAll
+          setIsClearAllOpen={setIsClearAllOpen}
+          filteredTasks={filteredTasks}
+        />
+      )}
     </div>
   );
 

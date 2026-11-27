@@ -1,16 +1,30 @@
+import type { TaskItemType } from "../../context/TaskProvider";
 import useTask from "../../Hooks/useTask";
 import Xbutton from "./Xbutton";
 
 type PropsType = {
   setIsClearAllOpen: (b: boolean) => void;
+  filteredTasks: TaskItemType[];
 };
 
-const ClearAll = ({ setIsClearAllOpen }: PropsType) => {
-  const { dispatch, REDUCER_ACTION } = useTask();
+const ClearAll = ({ setIsClearAllOpen, filteredTasks = [] }: PropsType) => {
+  const {
+    dispatch,
+    REDUCER_ACTION,
+    state: { tasks },
+  } = useTask();
+
   const onClear = () => {
-    dispatch({ type: REDUCER_ACTION.CLEAR });
+    if (filteredTasks.length === tasks.length) {
+      dispatch({ type: REDUCER_ACTION.CLEAR });
+    } else {
+      filteredTasks.forEach((task) =>
+        dispatch({ type: REDUCER_ACTION.DELETE, payload: { id: task.id } }),
+      );
+    }
     setIsClearAllOpen(false);
   };
+
   return (
     <div className="fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
       <div className="bg-bg-surface p-6 w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">

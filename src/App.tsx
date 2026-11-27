@@ -5,11 +5,12 @@ import Tasks from "./pages/Tasks";
 import { TaskProvider } from "./context/TaskProvider";
 function App() {
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   const tasks = (
     <Tasks
       setIsCreateTaskOpen={setIsCreateTaskOpen}
       isCreateTaskOpen={isCreateTaskOpen}
+      searchText={searchText}
     />
   );
   return (
@@ -18,7 +19,13 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Layout setIsCreateTaskOpen={setIsCreateTaskOpen} />}
+            element={
+              <Layout
+                searchText={searchText}
+                setIsCreateTaskOpen={setIsCreateTaskOpen}
+                setSearchText={setSearchText}
+              />
+            }
           >
             <Route index element={tasks} />
             <Route path="pending" element={tasks} />

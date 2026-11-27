@@ -2,18 +2,29 @@ import { LuSearch, LuPlus } from "react-icons/lu";
 
 type PropsType = {
   setIsCreateTaskOpen: (b: boolean) => void;
+  setSearchText: (b: string) => void;
+  searchText: string;
 };
 
-const Header = ({ setIsCreateTaskOpen }: PropsType) => {
+const Header = ({
+  setIsCreateTaskOpen,
+  setSearchText,
+  searchText,
+}: PropsType) => {
   const searchBar = (
     <div className=" bg-bg-card-inner w-2/5 min-w-60 flex items-center rounded-md border-border-default px-3 py-2 border gap-2 focus-within:outline-1 focus-within:outline-border-focus">
       <LuSearch />
+      <label htmlFor="searchTasks" className="sr-only">
+        Search Tasks
+      </label>
       <input
         type="search"
-        name=""
-        id=""
+        name="searchText"
+        id="searchText"
         placeholder="Search tasks..."
         className="text-[0.8rem] placeholder:text-text-muted w-full focus:outline-none"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
       />
     </div>
   );
