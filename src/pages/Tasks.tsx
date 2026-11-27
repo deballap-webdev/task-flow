@@ -1,4 +1,4 @@
-import { LuNotepadText } from "react-icons/lu";
+import { LuNotepadText, LuTrash2 } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
 import TaskStat from "../components/TaskStat";
 import useTask from "../Hooks/useTask";
@@ -10,8 +10,15 @@ type PropsType = {
   setIsCreateTaskOpen: (b: boolean) => void;
 };
 
+type Status = "high" | "medium" | "low";
+
 const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
-  const { pendingTasks, completedTasks, totalTasks } = useTask();
+  const { pendingTasks, completedTasks, totalTasks, dispatch, REDUCER_ACTION } =
+    useTask();
+
+  const statusArray: Status[] = ["high", "low", "medium"];
+
+  const onClear = () => dispatch({ type: REDUCER_ACTION.CLEAR });
 
   const header = (
     <div className="flex justify-between items-end">
@@ -24,7 +31,7 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
           A little Progress goes a long way
         </p>
       </div>
-      {pendingTasks === 0 && (
+      {pendingTasks > 0 && (
         <p className="text-[0.8rem] text-text-muted">
           <span className="rounded-[50%] w-2 h-2 bg-primary inline-block mr-1"></span>
           {pendingTasks} task(s) in progress
@@ -54,27 +61,50 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
   );
 
   const listHeader = (
-    <header className="flex justify-between items-end mb-4">
+    <header className="flex justify-between items-end mb-4 flex-wrap">
       <div>
         <h2 className="text-text-primary font-medium">Your List</h2>
         <p className="text-[0.8rem] text-text-secondary">{totalTasks} tasks</p>
       </div>
-      <nav
-        className="border border-border-default bg-bg-card-inner rounded-xl p-1 flex gap-3  "
-        aria-label="secondary navigation"
-      >
-        <SecondaryNavLink to="/" status="All tasks" count={totalTasks} />
-        <SecondaryNavLink to="/pending" status="Pending" count={pendingTasks} />
-        <SecondaryNavLink
-          to="/completed"
-          status="Completed"
-          count={completedTasks}
-        />
-      </nav>
-      <select name="" id="">
-        <option value="all priorities">All priorities</option>
-        {}
-      </select>
+      <div className="flex gap-2">
+        <nav
+          className="border border-border-default bg-bg-card-inner rounded-xl p-1 flex gap-3  "
+          aria-label="secondary navigation"
+        >
+          <SecondaryNavLink to="/" status="All tasks" count={totalTasks} />
+          <SecondaryNavLink
+            to="/pending"
+            status="Pending"
+            count={pendingTasks}
+          />
+          <SecondaryNavLink
+            to="/completed"
+            status="Completed"
+            count={completedTasks}
+          />
+        </nav>
+        <label htmlFor="filterPriority" className="sr-only">
+          Filter tasks by priority
+        </label>
+        <select
+          name="filterPriority"
+          id="filterPriority"
+          className="text-[0.8rem] border border-border-default px-3 py-2 shadow-sm rounded-[10px]"
+        >
+          <option value="all priorities">All priorities</option>
+          {statusArray.map((stat) => (
+            <option value={stat} key={`stautu${stat}`}>
+              {stat[0].toUpperCase() + stat.slice(1)}
+            </option>
+          ))}
+        </select>
+        <button
+          className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
+          onClick={onClear}
+        >
+          <LuTrash2 /> Clear All
+        </button>
+      </div>
     </header>
   );
 
