@@ -1,55 +1,47 @@
 import { useState } from "react";
-import { LuX } from "react-icons/lu";
-import { type TaskItemType } from "../context/TaskProvider";
-import useTask from "../Hooks/useTask";
+import { type TaskItemType } from "../../context/TaskProvider";
+import Xbutton from "./Xbutton";
+import useTask from "../../Hooks/useTask";
 
 type Priority = "low" | "medium" | "high";
 
 const priorityArray: Priority[] = ["low", "medium", "high"];
 
 type PropsType = {
-  setIsCreateTaskOpen: (b: boolean) => void;
+  setIsEditTaskOpen: (b: boolean) => void;
+  task: TaskItemType;
 };
 
-const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [priority, setPriority] = useState<Priority>("low");
+const EditTask = ({ setIsEditTaskOpen, task }: PropsType) => {
+  const [title, setTitle] = useState(task.title);
+  const [desc, setDesc] = useState(task.description);
+  const [priority, setPriority] = useState<Priority>(task.priority);
   const { dispatch, REDUCER_ACTION } = useTask();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (title.length > 80) return;
     const taskItem: TaskItemType = {
+      ...task,
       description: desc,
       title,
       priority,
-      id: Date.now().toString(),
-      timeStamp: Date.now(),
-      status: "pending",
     };
-    dispatch({ type: REDUCER_ACTION.CREATE, payload: taskItem });
+    dispatch({ type: REDUCER_ACTION.EDIT, payload: taskItem });
     setTitle("");
     setDesc("");
-    setIsCreateTaskOpen(false);
+    setIsEditTaskOpen(false);
   };
 
   const header = (
     <header className="flex justify-between">
       <div>
-        <h2 className="font-bold text-text-primary text-[1.2rem]">
-          Create a task
-        </h2>
+        <h2 className="font-bold text-text-primary text-[1.2rem]">Edit task</h2>
         <p className="text-[0.8rem] text-text-secondary">
-          Add a new task to your list.
+          Make a quick update to this task.
         </p>
       </div>
-      <button
-        className=" hover:text-danger hover:bg-badge-low-bg focus:outline-1 focus:outline-danger p-2 rounded-md h-8 w-8"
-        onClick={() => setIsCreateTaskOpen(false)}
-      >
-        <LuX />
-      </button>
+      <Xbutton onClick={() => setIsEditTaskOpen(false)} />
     </header>
   );
 
@@ -122,7 +114,7 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
       <button
         type="button"
         className="shadow-sm border-border-default border rounded-[10px] px-3 py-1.5 font-medium text-text-primary cursor-pointer focus:outline-1 focus:outline-primary bg-bg-surface hover:filter hover:brightness-[97.5%]"
-        onClick={() => setIsCreateTaskOpen(false)}
+        onClick={() => setIsEditTaskOpen(false)}
       >
         Cancel
       </button>
@@ -130,13 +122,13 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
         type="submit"
         className="bg-primary text-text-on-primary px-3 py-1.5 rounded-[10px] hover:bg-primary-hover cursor-pointer"
       >
-        Create task
+        Save changes
       </button>
     </div>
   );
 
   return (
-    <div className=" fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-[rgba(15,30,42,0.45)]">
+    <div className=" fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
       <form
         className="bg-bg-surface flex flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
         onSubmit={handleSubmit}
@@ -152,4 +144,4 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
   );
 };
 
-export default CreateTask;
+export default EditTask;

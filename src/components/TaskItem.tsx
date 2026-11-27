@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import PriorityBadge from "./ui/PriorityBadge";
 import EditButton from "./ui/EditButton";
 import DeleteButton from "./ui/DeleteButton";
-import EditTask from "../modals/EditTask";
+import EditTask from "./modals/EditTask";
 import useTask from "../Hooks/useTask";
 import { useState } from "react";
 

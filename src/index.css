@@ -12,6 +12,7 @@
   --color-bg-surface: #ffffff;
   --color-bg-subtle: #f1f5f9;
   --color-bg-card-inner: #f3f7fa;
+  --color-bg-overlay: rgba(15, 30, 42, 0.45);
 
   /* Text Colors */
   --color-text-primary: #1a1d20;

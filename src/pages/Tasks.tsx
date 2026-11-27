@@ -2,8 +2,10 @@ import { LuNotepadText, LuTrash2 } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
 import TaskStat from "../components/TaskStat";
 import useTask from "../Hooks/useTask";
-import CreateTask from "../modals/CreateTask";
+import CreateTask from "../components/modals/CreateTask";
 import TaskList from "../components/TaskList";
+import ClearAll from "../components/modals/ClearAll";
+import { useState } from "react";
 
 type PropsType = {
   isCreateTaskOpen: boolean;
@@ -13,12 +15,11 @@ type PropsType = {
 type Status = "high" | "medium" | "low";
 
 const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
-  const { pendingTasks, completedTasks, totalTasks, dispatch, REDUCER_ACTION } =
-    useTask();
+  const { pendingTasks, completedTasks, totalTasks } = useTask();
+
+  const [isClearAllOpen, setIsClearAllOpen] = useState(false);
 
   const statusArray: Status[] = ["high", "low", "medium"];
-
-  const onClear = () => dispatch({ type: REDUCER_ACTION.CLEAR });
 
   const header = (
     <div className="flex justify-between items-end">
@@ -98,12 +99,14 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
             </option>
           ))}
         </select>
-        <button
-          className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
-          onClick={onClear}
-        >
-          <LuTrash2 /> Clear All
-        </button>
+        {totalTasks > 0 && (
+          <button
+            className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
+            onClick={() => setIsClearAllOpen(true)}
+          >
+            <LuTrash2 /> Clear All
+          </button>
+        )}
       </div>
     </header>
   );
@@ -141,6 +144,7 @@ const Tasks = ({ isCreateTaskOpen, setIsCreateTaskOpen }: PropsType) => {
       {isCreateTaskOpen && (
         <CreateTask setIsCreateTaskOpen={setIsCreateTaskOpen} />
       )}
+      {isClearAllOpen && <ClearAll setIsClearAllOpen={setIsClearAllOpen} />}
     </div>
   );
 
