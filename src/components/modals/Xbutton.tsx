@@ -6,7 +6,7 @@ type PropsType = {
 const Xbutton = ({ onClick }: PropsType) => {
   return (
     <button
-      className=" hover:text-danger hover:bg-badge-low-bg focus:outline-1 focus:outline-danger p-2 rounded-md h-8 w-8"
+      className=" hover:text-primary hover:bg-primary-subtle  focus:outline-1 focus:outline-primary p-2 rounded-md h-8 w-8"
       onClick={onClick}
       title="Close Modal"
     >

@@ -26,8 +26,8 @@ const ClearAll = ({ setIsClearAllOpen, filteredTasks = [] }: PropsType) => {
   };
 
   return (
-    <div className="fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
-      <div className="bg-bg-surface p-6 w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">
+    <div className="fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay ">
+      <div className="bg-bg-surface   my-auto w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">
         <div className="flex justify-between">
           <div>
             <h3 className="text-[1.2rem] font-bold">Clear all tasks?</h3>

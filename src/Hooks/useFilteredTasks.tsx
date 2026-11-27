@@ -10,8 +10,11 @@ const useFilteredTasks = (tasks: TaskItemType[], searchText: string = "") => {
   const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSearchParams((prev) => {
-      if (value === "all") prev.delete("priority");
-      prev.set("priority", value);
+      if (value === "all") {
+        prev.delete("priority");
+      } else {
+        prev.set("priority", value);
+      }
       return prev;
     });
   };

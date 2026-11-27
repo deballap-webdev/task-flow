@@ -128,9 +128,9 @@ const EditTask = ({ setIsEditTaskOpen, task }: PropsType) => {
   );
 
   return (
-    <div className=" fixed overflow-y-auto inset-0 items-center justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
+    <div className=" fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
       <form
-        className="bg-bg-surface flex flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
+        className="bg-bg-surface flex my-auto flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
         onSubmit={handleSubmit}
       >
         {header}

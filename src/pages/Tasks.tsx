@@ -78,14 +78,16 @@ const Tasks = ({
   );
 
   const listHeader = (
-    <header className="flex justify-between items-end mb-4 flex-wrap">
+    <header className="flex justify-between items-end mb-4 flex-wrap gap-2">
       <div>
         <h2 className="text-text-primary font-medium">Your List</h2>
-        <p className="text-[0.8rem] text-text-secondary">{totalTasks} tasks</p>
+        <p className="text-[0.8rem] text-text-secondary">
+          {filteredTasks.length} tasks {searchText.length > 0 && "found"}
+        </p>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <nav
-          className="border border-border-default bg-bg-card-inner rounded-xl p-1 flex gap-3  "
+          className="border border-border-default bg-bg-card-inner rounded-xl p-1 flex gap-3  items-center justify-center "
           aria-label="secondary navigation"
         >
           <SecondaryNavLink to="/" status="All tasks" count={totalTasks} />
@@ -100,30 +102,32 @@ const Tasks = ({
             count={completedTasks}
           />
         </nav>
-        <label htmlFor="filterPriority" className="sr-only">
-          Filter tasks by priority
-        </label>
-        <select
-          name="filterPriority"
-          id="filterPriority"
-          className="text-[0.8rem] border border-border-default px-3 py-2 shadow-sm rounded-[10px]"
-          onChange={handlePriorityChange}
-        >
-          <option value="all">All priorities</option>
-          {statusArray.map((stat) => (
-            <option value={stat} key={`stautu${stat}`}>
-              {stat[0].toUpperCase() + stat.slice(1)}
-            </option>
-          ))}
-        </select>
-        {filteredTasks.length > 0 && (
-          <button
-            className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
-            onClick={() => setIsClearAllOpen(true)}
+        <div className="flex gap-2 sm:w-fit">
+          <label htmlFor="filterPriority" className="sr-only">
+            Filter tasks by priority
+          </label>
+          <select
+            name="filterPriority"
+            id="filterPriority"
+            className="text-[0.8rem] border border-border-default  p-3 shadow-sm rounded-[10px]"
+            onChange={handlePriorityChange}
           >
-            <LuTrash2 /> Clear All
-          </button>
-        )}
+            <option value="all">All priorities</option>
+            {statusArray.map((stat) => (
+              <option value={stat} key={`stautu${stat}`}>
+                {stat[0].toUpperCase() + stat.slice(1)}
+              </option>
+            ))}
+          </select>
+          {filteredTasks.length > 0 && (
+            <button
+              className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
+              onClick={() => setIsClearAllOpen(true)}
+            >
+              <LuTrash2 /> Clear All
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );
@@ -133,8 +137,8 @@ const Tasks = ({
   );
 
   const content = (
-    <div className="bg-bg-app min-h-[calc(100%-54px)]">
-      <main className="  flex  mx-auto max-w-250 p-6 flex-col gap-8">
+    <div className="bg-bg-app min-h-[calc(100%-57px)]">
+      <main className="  flex  mx-auto max-w-250 p-6 flex-col gap-8 ">
         {header}
         {taskSatistics}
         <section>

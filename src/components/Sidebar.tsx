@@ -1,22 +1,33 @@
 import { LuCheck, LuNotepadText } from "react-icons/lu";
 import useTask from "../Hooks/useTask";
 import SidebarNavLink from "./SidebarNavLink";
+import Xbutton from "./modals/Xbutton";
 
-const Sidebar = () => {
+type PropsType = {
+  isNavOpen: boolean;
+  setIsNavOpen: (b: boolean) => void;
+};
+
+const Sidebar = ({ isNavOpen, setIsNavOpen }: PropsType) => {
   const { pendingTasks, completedTasks, totalTasks } = useTask();
 
   const header = (
-    <header className={" flex items-center gap-2"}>
-      <LuNotepadText
-        className={
-          "text-2xl rounded-2xl w-10 h-10 px-2 py-1 bg-primary text-text-on-primary"
-        }
-      />
-      <div>
-        <p className={"text-text-primary font-medium"}>TaskFlow</p>
-        <p className={"text-[0.8rem] text-text-secondary"}>
-          Personal workspace
-        </p>
+    <header className={"flex justify-between gap-4 items-start"}>
+      <div className="flex items-center gap-2">
+        <LuNotepadText
+          className={
+            "text-2xl rounded-2xl w-10 h-10 px-2 py-1 bg-primary text-text-on-primary"
+          }
+        />
+        <div>
+          <p className={"text-text-primary font-medium"}>TaskFlow</p>
+          <p className={"text-[0.8rem] text-text-secondary text-nowrap"}>
+            Personal workspace
+          </p>
+        </div>
+      </div>
+      <div className="sm:hidden">
+        <Xbutton onClick={() => setIsNavOpen(false)} />
       </div>
     </header>
   );
@@ -47,16 +58,21 @@ const Sidebar = () => {
   );
 
   const content = (
-    <aside
-      aria-label="Sidebar Navigation"
-      className="flex flex-col justify-between min-h-screen p-4 border-r border-border-default w-fit gap-5"
-    >
-      <div className="flex flex-col gap-10">
-        {header}
-        {nav}
-      </div>
-      {footer}
-    </aside>
+    <>
+      {isNavOpen && (
+        <div className="fixed top-0 inset-0 backdrop-blur-sm z-20 bg-bg-overlay w-screen min-h-screen" />
+      )}
+      <aside
+        aria-label="Sidebar Navigation"
+        className={`sm:flex sm:sticky ${isNavOpen ? "flex" : "hidden"} flex-col  justify-between min-h-fit h-screen fixed left-0 top-0 p-4 border-r  bg-bg-surface border-border-default w-fit gap-5 z-25`}
+      >
+        <div className="flex flex-col  gap-10">
+          {header}
+          {nav}
+        </div>
+        {footer}
+      </aside>
+    </>
   );
 
   return content;
