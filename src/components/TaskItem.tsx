@@ -80,10 +80,9 @@ const TaskItem = ({ task }: PropsType) => {
             type="checkbox"
             checked={isChecked}
             className="border-none w-8 h-8"
-            onChange={(e) => {
-              e.stopPropagation();
-              onToggle();
-            }}
+            onChange={onToggle}
+
+            onClick={(e) => e.stopPropagation()}
           />
           <div>
             {titleAndDesc}

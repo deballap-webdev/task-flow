@@ -5,17 +5,18 @@ import Xbutton from "./Xbutton";
 type PropsType = {
   setIsClearAllOpen: (b: boolean) => void;
   filteredTasks: TaskItemType[];
+  type: "filtered" | "all";
 };
 
-const ClearAll = ({ setIsClearAllOpen, filteredTasks = [] }: PropsType) => {
-  const {
-    dispatch,
-    REDUCER_ACTION,
-    state: { tasks },
-  } = useTask();
+const ClearAll = ({
+  setIsClearAllOpen,
+  type,
+  filteredTasks = [],
+}: PropsType) => {
+  const { dispatch, REDUCER_ACTION } = useTask();
 
   const onClear = () => {
-    if (filteredTasks.length === tasks.length) {
+    if (type === "all") {
       dispatch({ type: REDUCER_ACTION.CLEAR });
     } else {
       filteredTasks.forEach((task) =>
@@ -27,10 +28,10 @@ const ClearAll = ({ setIsClearAllOpen, filteredTasks = [] }: PropsType) => {
 
   return (
     <div className="fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay ">
-      <div className="bg-bg-surface   my-auto w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">
+      <div className="bg-bg-surface p-3  my-auto w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">
         <div className="flex justify-between">
           <div>
-            <h3 className="text-[1.2rem] font-bold">Clear all tasks?</h3>
+            <h3 className="text-[1.2rem] font-bold">Clear {type} tasks?</h3>
             <p className="text-text-muted ">This action cannot be undone</p>
           </div>
           <Xbutton onClick={() => setIsClearAllOpen(false)} />

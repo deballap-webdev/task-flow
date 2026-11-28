@@ -28,6 +28,8 @@ const Tasks = ({
     state: { tasks },
   } = useTask();
 
+  const [type, setType] = useState<"all" | "filtered">("all");
+
   const [isClearAllOpen, setIsClearAllOpen] = useState(false);
 
   const statusArray: Status[] = ["high", "low", "medium"];
@@ -119,12 +121,26 @@ const Tasks = ({
               </option>
             ))}
           </select>
-          {filteredTasks.length > 0 && (
+          {tasks.length > 0 && (
             <button
               className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
-              onClick={() => setIsClearAllOpen(true)}
+              onClick={() => {
+                setType("all");
+                setIsClearAllOpen(true);
+              }}
             >
-              <LuTrash2 /> Clear All
+              <LuTrash2 /> Clear All {`(${tasks.length})`}
+            </button>
+          )}
+          {filteredTasks.length > 0 && filteredTasks.length < tasks.length && (
+            <button
+              className="text-danger hover:bg-bg-danger p-2 rounded-[10px] text-nowrap flex items-center gap-2 text-[0.8rem] cursor-pointer"
+              onClick={() => {
+                setType("filtered");
+                setIsClearAllOpen(true);
+              }}
+            >
+              <LuTrash2 /> Clear Filtered {`(${filteredTasks.length})`}
             </button>
           )}
         </div>
@@ -153,6 +169,7 @@ const Tasks = ({
         <ClearAll
           setIsClearAllOpen={setIsClearAllOpen}
           filteredTasks={filteredTasks}
+          type={type}
         />
       )}
     </div>
