@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { type TaskItemType } from "../../context/TaskProvider";
-import Xbutton from "./Xbutton";
+import Xbutton from "../ui/Xbutton";
 import useTask from "../../Hooks/useTask";
 
 type Priority = "low" | "medium" | "high";
@@ -128,7 +128,12 @@ const EditTask = ({ setIsEditTaskOpen, task }: PropsType) => {
   );
 
   return (
-    <div className=" fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setIsEditTaskOpen(false);
+      }}
+      className=" fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay"
+    >
       <form
         className="bg-bg-surface flex my-auto flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
         onSubmit={handleSubmit}

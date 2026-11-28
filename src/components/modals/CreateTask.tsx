@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { type TaskItemType } from "../../context/TaskProvider";
 import useTask from "../../Hooks/useTask";
-import Xbutton from "./Xbutton";
+import Xbutton from "../ui/Xbutton";
 
 type Priority = "low" | "medium" | "high";
 
@@ -131,7 +131,12 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
   );
 
   return (
-    <div className=" fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setIsCreateTaskOpen(false);
+      }}
+      className=" fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay"
+    >
       <form
         className="bg-bg-surface my-auto flex flex-col gap-4 rounded-lg p-4 w-[clamp(250px,50vw,480px)]"
         onSubmit={handleSubmit}

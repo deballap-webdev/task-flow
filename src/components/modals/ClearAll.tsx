@@ -1,6 +1,6 @@
 import type { TaskItemType } from "../../context/TaskProvider";
 import useTask from "../../Hooks/useTask";
-import Xbutton from "./Xbutton";
+import Xbutton from "../ui/Xbutton";
 
 type PropsType = {
   setIsClearAllOpen: (b: boolean) => void;
@@ -27,7 +27,12 @@ const ClearAll = ({
   };
 
   return (
-    <div className="fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay ">
+    <div
+      className="fixed overflow-y-auto inset-0 items-start justify-center flex z-30 backrop-blur-sm bg-bg-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setIsClearAllOpen(false);
+      }}
+    >
       <div className="bg-bg-surface p-3  my-auto w-[clamp(250px,50vw,480px)] rounded-xl flex flex-col gap-5">
         <div className="flex justify-between">
           <div>

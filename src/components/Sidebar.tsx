@@ -1,7 +1,7 @@
 import { LuCheck, LuNotepadText } from "react-icons/lu";
 import useTask from "../Hooks/useTask";
 import SidebarNavLink from "./SidebarNavLink";
-import Xbutton from "./modals/Xbutton";
+import Xbutton from "./ui/Xbutton";
 
 type PropsType = {
   isNavOpen: boolean;
