@@ -1,5 +1,6 @@
 import type { TaskItemType } from "../../context/TaskProvider";
-import useTask from "../../Hooks/useTask";
+import useEscapeModal from "../../hooks/useEscapeModal";
+import useTask from "../../hooks/useTask";
 import Xbutton from "../ui/Xbutton";
 
 type PropsType = {
@@ -25,6 +26,8 @@ const ClearAll = ({
     }
     setIsClearAllOpen(false);
   };
+
+  useEscapeModal(true, setIsClearAllOpen);
 
   return (
     <div

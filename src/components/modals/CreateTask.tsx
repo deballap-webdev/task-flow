@@ -2,6 +2,7 @@ import { useState } from "react";
 import { type TaskItemType } from "../../context/TaskProvider";
 import useTask from "../../Hooks/useTask";
 import Xbutton from "../ui/Xbutton";
+import useEscapeModal from "../../Hooks/useEscapeModal";
 
 type Priority = "low" | "medium" | "high";
 
@@ -16,6 +17,7 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
   const [desc, setDesc] = useState("");
   const [priority, setPriority] = useState<Priority>("low");
   const { dispatch, REDUCER_ACTION } = useTask();
+  useEscapeModal(true, setIsCreateTaskOpen);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();

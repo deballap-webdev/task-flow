@@ -5,7 +5,7 @@ import PriorityBadge from "./ui/PriorityBadge";
 import EditButton from "./ui/EditButton";
 import DeleteButton from "./ui/DeleteButton";
 import EditTask from "./modals/EditTask";
-import useTask from "../Hooks/useTask";
+import useTask from "../hooks/useTask";
 import { useState } from "react";
 import FullTaskItem from "./modals/FullTaskItem";
 

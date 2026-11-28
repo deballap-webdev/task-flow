@@ -1,5 +1,5 @@
 import { LuCheck, LuNotepadText } from "react-icons/lu";
-import useTask from "../Hooks/useTask";
+import useTask from "../hooks/useTask";
 import SidebarNavLink from "./SidebarNavLink";
 import Xbutton from "./ui/Xbutton";
 

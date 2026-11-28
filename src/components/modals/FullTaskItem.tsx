@@ -9,8 +9,9 @@ import {
 import type { TaskItemType } from "../../context/TaskProvider";
 import { format } from "date-fns";
 import PriorityBadge from "../ui/PriorityBadge";
-import useTask from "../../Hooks/useTask";
+import useTask from "../../hooks/useTask";
 import Xbutton from "../ui/Xbutton";
+import useEscapeModal from "../../hooks/useEscapeModal";
 
 type PropsType = {
   task: TaskItemType;
@@ -24,6 +25,8 @@ const FullTaskItem = ({
   setIsFullItemOpen,
 }: PropsType) => {
   const { dispatch, REDUCER_ACTION } = useTask();
+
+  useEscapeModal(true, setIsFullItemOpen);
 
   const toggleStatus = () =>
     dispatch({ type: REDUCER_ACTION.TGSTATUS, payload: task });

@@ -1,12 +1,12 @@
 import { LuTrash2 } from "react-icons/lu";
 import SecondaryNavLink from "../components/SecondaryNavLink";
 import TaskStat from "../components/TaskStat";
-import useTask from "../Hooks/useTask";
+import useTask from "../hooks/useTask";
 import CreateTask from "../components/modals/CreateTask";
 import TaskList from "../components/TaskList";
 import ClearAll from "../components/modals/ClearAll";
 import { useState } from "react";
-import useFilteredTasks from "../Hooks/useFilteredTasks";
+import useFilteredTasks from "../hooks/useFilteredTasks";
 
 type PropsType = {
   isCreateTaskOpen: boolean;
