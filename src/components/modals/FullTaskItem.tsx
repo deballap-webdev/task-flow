@@ -30,7 +30,7 @@ const FullTaskItem = ({
 
   const statusBadge =
     task.status === "completed" ? (
-      <div className="flex items-center text-[0.9rem] gap-2 bg-badge-low-bg w-fit px-3 text-badge-low-text rounded-[15px] py-1">
+      <div className=" items-center text-[0.9rem] gap-2 bg-badge-low-bg w-fit px-3 text-badge-low-text rounded-[15px] h-fit hidden sm:flex py-1">
         <LuCircleCheck /> Completed
       </div>
     ) : (
@@ -86,7 +86,7 @@ const FullTaskItem = ({
   );
 
   const taskBody = (
-    <div className="grid-cols-2 grid-rows-2 grid gap-2 border-y py-3 border-border-default">
+    <div className="grid-rows-2 grid-cols-[1fr,3fr] grid gap-4 border-y py-3 border-border-default">
       <div className="row-span-1 col-span-1">
         <p className="font-medium text-text-muted text-[0.8rem] mb-1">
           PRIORITY
