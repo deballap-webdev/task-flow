@@ -24,6 +24,7 @@ const Layout = ({
           setIsCreateTaskOpen={setIsCreateTaskOpen}
           setSearchText={setSearchText}
           setIsNavOpen={setIsNavOpen}
+          isNavOpen={isNavOpen}
         />
         <Outlet />
       </div>

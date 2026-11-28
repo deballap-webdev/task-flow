@@ -20,11 +20,11 @@ const EditTask = ({ setIsEditTaskOpen, task }: PropsType) => {
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.length > 80) return;
+    if (title.length > 80 || !title.trim().length) return;
     const taskItem: TaskItemType = {
       ...task,
       description: desc,
-      title,
+      title: title.trim(),
       priority,
     };
     dispatch({ type: REDUCER_ACTION.EDIT, payload: taskItem });

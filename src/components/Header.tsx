@@ -5,6 +5,7 @@ type PropsType = {
   setSearchText: (b: string) => void;
   searchText: string;
   setIsNavOpen: (b: boolean) => void;
+  isNavOpen: boolean;
 };
 
 const Header = ({
@@ -12,6 +13,7 @@ const Header = ({
   setSearchText,
   searchText,
   setIsNavOpen,
+  isNavOpen,
 }: PropsType) => {
   const searchBar = (
     <div className=" bg-bg-card-inner  flex items-center rounded-md border-border-default px-3 py-2 border gap-2 focus-within:outline-1 focus-within:outline-border-focus w-full max-w-150">
@@ -44,6 +46,7 @@ const Header = ({
     <button
       className="cursor-pointer text-2xl h-10 w-10 grid place-content-center rounded-md hover:bg-primary-subtle hover:text-primary sm:hidden"
       onClick={() => setIsNavOpen(true)}
+      aria-expanded={isNavOpen}
     >
       <LuMenu />
     </button>

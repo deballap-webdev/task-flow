@@ -7,6 +7,7 @@ import DeleteButton from "./ui/DeleteButton";
 import EditTask from "./modals/EditTask";
 import useTask from "../Hooks/useTask";
 import { useState } from "react";
+import FullTaskItem from "./modals/FullTaskItem";
 
 type PropsType = {
   task: TaskItemType;
@@ -15,8 +16,15 @@ type PropsType = {
 const TaskItem = ({ task }: PropsType) => {
   const { dispatch, REDUCER_ACTION } = useTask();
 
-  const onDelete = () =>
+  const onDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     dispatch({ type: REDUCER_ACTION.DELETE, payload: { id: task.id } });
+  };
+
+  const onEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    setIsEditTaskOpen(true);
+  };
 
   const onToggle = () =>
     dispatch({ type: REDUCER_ACTION.TGSTATUS, payload: { id: task.id } });
@@ -26,6 +34,7 @@ const TaskItem = ({ task }: PropsType) => {
   const date: string = format(task.timeStamp, "MMM d, yyyy");
 
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+  const [isFullItemOpen, setIsFullItemOpen] = useState(false);
 
   const titleAndDesc = (
     <>
@@ -54,7 +63,7 @@ const TaskItem = ({ task }: PropsType) => {
 
   const taskActions = (
     <div className="flex gap-0.5">
-      <EditButton onClick={() => setIsEditTaskOpen(true)} />
+      <EditButton onClick={onEdit} />
       <DeleteButton onClick={onDelete} />
     </div>
   );
@@ -64,13 +73,17 @@ const TaskItem = ({ task }: PropsType) => {
       <li
         className="flex gap-3 justify-between bg-bg-surface shadow-sm border border-border-default rounded-xl hover:shadow-md hover:cursor-pointer hover:brightness-[97.5%] index p-6 focus:outline-1 focus:outline-primary"
         tabIndex={0}
+        onClick={() => setIsFullItemOpen(true)}
       >
         <div className="flex gap-3">
           <input
             type="checkbox"
             checked={isChecked}
             className="border-none w-8 h-8"
-            onChange={onToggle}
+            onChange={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
           />
           <div>
             {titleAndDesc}
@@ -81,6 +94,14 @@ const TaskItem = ({ task }: PropsType) => {
       </li>
       {isEditTaskOpen && (
         <EditTask task={task} setIsEditTaskOpen={setIsEditTaskOpen} />
+      )}
+
+      {isFullItemOpen && (
+        <FullTaskItem
+          task={task}
+          setIsEditOpen={setIsEditTaskOpen}
+          setIsFullItemOpen={setIsFullItemOpen}
+        />
       )}
     </>
   );

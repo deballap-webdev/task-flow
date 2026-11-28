@@ -1,7 +1,7 @@
 import { LuTrash2 } from "react-icons/lu";
 
 type PropsType = {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 const DeleteButton = ({ onClick }: PropsType) => {

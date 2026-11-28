@@ -1,7 +1,7 @@
 import { LuPencil } from "react-icons/lu";
 
 type PropsType = {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 const EditButton = ({ onClick }: PropsType) => {

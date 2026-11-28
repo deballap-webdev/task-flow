@@ -19,12 +19,12 @@ const CreateTask = ({ setIsCreateTaskOpen }: PropsType) => {
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.length > 80) return;
+    if (title.trim().length > 80) return;
     const taskItem: TaskItemType = {
       description: desc,
-      title,
+      title: title.trim(),
       priority,
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       timeStamp: Date.now(),
       status: "pending",
     };
